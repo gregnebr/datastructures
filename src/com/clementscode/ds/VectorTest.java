@@ -1,5 +1,7 @@
 package com.clementscode.ds;
 
+import java.util.Iterator;
+
 import junit.framework.Assert;
 
 import org.junit.Test;
@@ -19,4 +21,20 @@ public class VectorTest {
 		Assert.assertEquals((Integer) 41, res);
 	}
 
+	@Test
+	public void testIter() {
+		Vector<Integer> v = new Vector<Integer>(0);
+		v.add(1);
+		v.add(2);
+		v.add(3);
+		Iterator<Integer> iterator = v.iterator();
+		Assert.assertEquals(true, iterator.hasNext());
+		Assert.assertEquals((Integer) 1, iterator.next());
+		Assert.assertEquals(true, iterator.hasNext());
+		Assert.assertEquals((Integer) 2, iterator.next());
+		Assert.assertEquals(true, iterator.hasNext());
+		Assert.assertEquals((Integer) 3, iterator.next());
+		Assert.assertEquals(false, iterator.hasNext());
+
+	}
 }

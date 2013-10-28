@@ -40,7 +40,7 @@ public class Vector<T> implements Collection<T> {
 
 	@SuppressWarnings("unchecked")
 	public T get(int index) {
-		return (T) data[pointer - 1];
+		return (T) data[index];
 	}
 
 	public int size() {
@@ -50,7 +50,10 @@ public class Vector<T> implements Collection<T> {
 	@Override
 	public boolean addAll(Collection<? extends T> c) {
 		// TODO Auto-generated method stub
-		return false;
+		for (T item : c) {
+			add(item);
+		}
+		return true;
 	}
 
 	@Override
@@ -62,6 +65,13 @@ public class Vector<T> implements Collection<T> {
 	@Override
 	public boolean contains(Object o) {
 		// TODO Auto-generated method stub
+		for (int i = 0; i < pointer; i++) {
+			if (o.equals(data[i])) {
+				return true;
+			}
+
+		}
+
 		return false;
 	}
 
@@ -80,7 +90,30 @@ public class Vector<T> implements Collection<T> {
 	@Override
 	public Iterator<T> iterator() {
 		// TODO Auto-generated method stub
-		return null;
+		Iterator<T> rval = new Iterator<T>() {
+			private int current = 0;
+
+			@Override
+			public boolean hasNext() {
+				// TODO Auto-generated method stub
+				return pointer > current;
+
+			}
+
+			@Override
+			public T next() {
+				// TODO Auto-generated method stub
+
+				return (T) data[current++];
+			}
+
+			@Override
+			public void remove() {
+				// TODO Auto-generated method stub
+				throw new UnsupportedOperationException();
+			}
+		};
+		return rval;
 	}
 
 	@Override
