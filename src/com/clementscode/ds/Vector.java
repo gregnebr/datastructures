@@ -58,8 +58,7 @@ public class Vector<T> implements Collection<T> {
 
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
-
+		pointer = 0;
 	}
 
 	@Override
@@ -84,7 +83,7 @@ public class Vector<T> implements Collection<T> {
 	@Override
 	public boolean isEmpty() {
 		// TODO Auto-generated method stub
-		return false;
+		return pointer > 0;
 	}
 
 	@Override
