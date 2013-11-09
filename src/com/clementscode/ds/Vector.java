@@ -1,5 +1,6 @@
 package com.clementscode.ds;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -164,9 +165,13 @@ public class Vector<T> implements Collection<T> {
 
 	@Override
 	public <T2> T2[] toArray(T2[] a) {
-		// TODO Auto-generated method stub
-
-		return null;
+		if (a.length < size()) {
+			a = Arrays.copyOf(a, size());
+		}
+		for (int i = 0; i < size(); ++i) {
+			a[i] = (T2) data[i];
+		}
+		return a;
 	}
 
 }
