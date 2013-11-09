@@ -1,5 +1,6 @@
 package com.clementscode.ds;
 
+import java.util.Arrays;
 import java.util.Iterator;
 
 import junit.framework.Assert;
@@ -35,6 +36,16 @@ public class VectorTest {
 		Assert.assertEquals(true, iterator.hasNext());
 		Assert.assertEquals((Integer) 3, iterator.next());
 		Assert.assertEquals(false, iterator.hasNext());
+	}
 
+	@Test
+	public void testContains() {
+		Vector<Integer> v = new Vector<Integer>(2);
+		v.add(42);
+		v.add(89);
+		Assert.assertEquals(true, v.contains(42));
+		Assert.assertEquals(false, v.contains(0));
+		Assert.assertEquals(true, v.containsAll(Arrays.asList(89, 42)));
+		Assert.assertEquals(false, v.containsAll(Arrays.asList(89, 42, 9)));
 	}
 }
