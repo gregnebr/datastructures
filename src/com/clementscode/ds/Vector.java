@@ -49,7 +49,6 @@ public class Vector<T> implements Collection<T> {
 
 	@Override
 	public boolean addAll(Collection<? extends T> c) {
-		// TODO Auto-generated method stub
 		for (T item : c) {
 			add(item);
 		}
@@ -63,61 +62,63 @@ public class Vector<T> implements Collection<T> {
 
 	@Override
 	public boolean contains(Object o) {
-		// TODO Auto-generated method stub
-		for (int i = 0; i < pointer; i++) {
-			if (o.equals(data[i])) {
-				return true;
-			}
-
-		}
-
-		return false;
+		return findIndex(o) >= 0;
 	}
 
 	@Override
 	public boolean containsAll(Collection<?> c) {
-		// TODO Auto-generated method stub
-		return false;
+		for (Object item : c) {
+			if (!contains(item)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
 		return pointer > 0;
 	}
 
 	@Override
 	public Iterator<T> iterator() {
-		// TODO Auto-generated method stub
 		Iterator<T> rval = new Iterator<T>() {
 			private int current = 0;
 
 			@Override
 			public boolean hasNext() {
-				// TODO Auto-generated method stub
 				return pointer > current;
 
 			}
 
 			@Override
 			public T next() {
-				// TODO Auto-generated method stub
 
 				return (T) data[current++];
 			}
 
 			@Override
 			public void remove() {
-				// TODO Auto-generated method stub
 				throw new UnsupportedOperationException();
 			}
 		};
 		return rval;
 	}
 
+	private int findIndex(Object o) {
+		for (int i = 0; i < pointer; i++) {
+			if (o.equals(data[i])) {
+				return i;
+			}
+
+		}
+		return -1;
+	}
+
 	@Override
 	public boolean remove(Object o) {
 		// TODO Auto-generated method stub
+
 		return false;
 	}
 
