@@ -100,7 +100,7 @@ public class Vector<T> implements Collection<T> {
 
 			@Override
 			public void remove() {
-				throw new UnsupportedOperationException();
+				Vector.this.remove(current);
 			}
 		};
 		return rval;
@@ -122,16 +122,19 @@ public class Vector<T> implements Collection<T> {
 		if (j == -1) {
 			return false;
 		}
+		remove(j);
+		return true;
+	}
+
+	private void remove(int j) {
 		for (int i = j; i < pointer - 1; i++) {
 			data[i] = data[i + 1];
 		}
 		pointer--;
-		return true;
 	}
 
 	@Override
 	public boolean removeAll(Collection<?> c) {
-		// TODO Auto-generated method stub
 		boolean changed = false;
 		for (Object item : c) {
 			if (remove(item)) {
