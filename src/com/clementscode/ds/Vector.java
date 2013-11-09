@@ -117,32 +117,55 @@ public class Vector<T> implements Collection<T> {
 
 	@Override
 	public boolean remove(Object o) {
-		// TODO Auto-generated method stub
-
-		return false;
+		int j = findIndex(o);
+		if (j == -1) {
+			return false;
+		}
+		for (int i = j; i < pointer - 1; i++) {
+			data[i] = data[i + 1];
+		}
+		pointer--;
+		return true;
 	}
 
 	@Override
 	public boolean removeAll(Collection<?> c) {
 		// TODO Auto-generated method stub
-		return false;
+		boolean changed = false;
+		for (Object item : c) {
+			if (remove(item)) {
+				changed = true;
+			}
+		}
+		return changed;
 	}
 
 	@Override
 	public boolean retainAll(Collection<?> c) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean changed = false;
+		for (int i = 0; i < pointer;) {
+			if (!c.contains(data[i])) {
+				changed = remove(data[i]);
+			} else {
+				i++;
+			}
+		}
+		return changed;
 	}
 
 	@Override
 	public Object[] toArray() {
-		// TODO Auto-generated method stub
-		return null;
+		Object[] rval = new Object[size()];
+		for (int i = 0; i < rval.length; i++) {
+			rval[i] = data[i];
+		}
+		return rval;
 	}
 
 	@Override
-	public <T> T[] toArray(T[] a) {
+	public <T2> T2[] toArray(T2[] a) {
 		// TODO Auto-generated method stub
+
 		return null;
 	}
 
