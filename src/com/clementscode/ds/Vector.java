@@ -100,7 +100,7 @@ public class Vector<T> implements Collection<T> {
 
 			@Override
 			public void remove() {
-				Vector.this.remove(current);
+				Vector.this.remove(current - 1);
 			}
 		};
 		return rval;
@@ -134,7 +134,7 @@ public class Vector<T> implements Collection<T> {
 	}
 
 	@Override
-	public boolean removeAll(Collection<?> c) {
+	public boolean removeAll(Collection<?> c) { // fails to remove duplicates
 		boolean changed = false;
 		for (Object item : c) {
 			if (remove(item)) {
