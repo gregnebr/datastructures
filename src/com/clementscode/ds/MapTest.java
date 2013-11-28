@@ -27,4 +27,17 @@ public class MapTest {
 		result = map.get(5);
 		Assert.assertEquals((Integer) (-1), result);
 	}
+
+	@Test
+	public void testPrint() {
+		TreeMap<Integer, String> map = new TreeMap<Integer, String>();
+		map.put(5, "five");
+		map.put(7, "seven");
+		map.put(3, "three");
+		map.put(8, "eight");
+		map.put(6, "six");
+		map.put(4, "four");
+		map.put(2, "two");
+		System.out.println(map);
+	}
 }

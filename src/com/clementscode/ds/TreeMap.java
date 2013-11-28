@@ -20,6 +20,14 @@ public class TreeMap<K extends Comparable<K>, V> implements Map<K, V> {// passin
 			this.value = value;
 			this.left = left;
 			this.right = right;
+
+		}
+
+		@Override
+		public String toString() {
+			// TODO Auto-generated method stub
+			return String.format("(%s,%s)", key.toString(), value.toString());
+
 		}
 
 		@Override
@@ -191,6 +199,26 @@ public class TreeMap<K extends Comparable<K>, V> implements Map<K, V> {// passin
 	public Collection<V> values() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public String toString() {
+		return print(0, root);
+	}
+
+	private String print(int level, Node n) {
+		if (n == null) {
+			return "";
+		}
+		StringBuilder sb = new StringBuilder();
+		sb.append(print(level + 1, n.right));
+		for (int i = 0; i < level; i++) {
+			sb.append("\t");
+		}
+		sb.append(n.toString());
+		sb.append("\n");
+		sb.append(print(level + 1, n.left));
+		return sb.toString();
 	}
 
 }
