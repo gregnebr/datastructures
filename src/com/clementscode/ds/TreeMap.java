@@ -3,13 +3,14 @@ package com.clementscode.ds;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class TreeMap<K extends Comparable<K>, V> implements Map<K, V> {// passing definition of
 																		// generic on to other
 																		// source
 	// that instantiates TreeMap
 
-	private class Node implements Entry<K, V> {
+	private class Node implements Entry<K, V>, Comparable<Node> {
 		K key;
 		V value;
 		Node left;
@@ -20,35 +21,40 @@ public class TreeMap<K extends Comparable<K>, V> implements Map<K, V> {// passin
 			this.value = value;
 			this.left = left;
 			this.right = right;
-
 		}
 
 		@Override
 		public String toString() {
-			// TODO Auto-generated method stub
 			return String.format("(%s,%s)", key.toString(), value.toString());
 
 		}
 
 		@Override
 		public K getKey() {
-			// TODO Auto-generated method stub
 			return key;
 		}
 
 		@Override
 		public V getValue() {
-			// TODO Auto-generated method stub
 			return value;
 		}
 
 		@Override
 		public V setValue(V value) { // change value but return old value
-			// TODO Auto-generated method stub
 			V oldValue = this.value;
 			this.value = value;
 			return oldValue;
 		}
+
+		@Override
+		public int compareTo(Node o) {
+			return key.compareTo(o.key);
+		}
+
+	} // end node class
+
+	private abstract class Visitor {
+		public abstract boolean visit(int level, Node n);
 
 	}
 
@@ -57,7 +63,6 @@ public class TreeMap<K extends Comparable<K>, V> implements Map<K, V> {// passin
 
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
 		size = 0;
 		root = null;
 	}
@@ -95,8 +100,7 @@ public class TreeMap<K extends Comparable<K>, V> implements Map<K, V> {// passin
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean containsKey(Object arg0) {
-		// TODO Auto-generated method stub
-		if (!(arg0 instanceof Comparable)) {
+		if (!(arg0 instanceof Comparable)) { // if not comparable must search whole tree
 			throw new IllegalArgumentException("Arugment must be comparable");
 		}
 		K key = (K) arg0;
@@ -108,22 +112,38 @@ public class TreeMap<K extends Comparable<K>, V> implements Map<K, V> {// passin
 	}
 
 	@Override
-	public boolean containsValue(Object arg0) { // walk tree recursively homework test objecdt
-												// equality like vector
-		// TODO Auto-generated method stub
-		return false;
+	public boolean containsValue(final Object arg0) { // walk tree recursively homework test objecdt
+		// equality like vector
+		Visitor v = new Visitor() {
+
+			@Override
+			public boolean visit(int level, Node n) {
+				return !arg0.equals(n.getValue());
+			}
+
+		}; // closes declaration
+		return !walkDesc(0, root, v); // walkDesc returns false if item was found
 	}
 
 	@Override
 	public Set<java.util.Map.Entry<K, V>> entrySet() { // returns set of entry objects
-		// TODO Auto-generated method stub
 		// walk recursively and add all nodes to set
-		return null;
+		final Set<Entry<K, V>> rval = new TreeSet<Entry<K, V>>();
+		Visitor v = new Visitor() {
+
+			@Override
+			public boolean visit(int level, Node n) {
+				rval.add(n);
+				return true;
+			}
+		};
+		walkDesc(0, root, v);
+		return rval;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public V get(Object arg0) {
-		// TODO Auto-generated method stub
 		if (!(arg0 instanceof Comparable)) {
 			throw new IllegalArgumentException("Arugment must be comparable");
 		}
@@ -140,7 +160,6 @@ public class TreeMap<K extends Comparable<K>, V> implements Map<K, V> {// passin
 
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
 		return root == null;
 	}
 
@@ -152,7 +171,6 @@ public class TreeMap<K extends Comparable<K>, V> implements Map<K, V> {// passin
 
 	@Override
 	public V put(K arg0, V arg1) { // returns previous value at key
-		// TODO Auto-generated method stub
 		if (root == null) {
 			root = new Node(arg0, arg1, null, null);
 			size++;
@@ -198,19 +216,49 @@ public class TreeMap<K extends Comparable<K>, V> implements Map<K, V> {// passin
 	@Override
 	public Collection<V> values() {
 		// TODO Auto-generated method stub
+		// just like keyset, but build a LinkedList of values to return
 		return null;
 	}
 
 	@Override
 	public String toString() {
-		return print(0, root);
+		final StringBuilder sb = new StringBuilder();
+		Visitor v = new Visitor() {
+
+			@Override
+			public boolean visit(int level, Node n) {
+				for (int i = 0; i < level; i++) {
+					sb.append("\t");
+				}
+				sb.append(n.toString());
+				sb.append("\n");
+				return true; // continue walk
+			}
+		}; // end of Visitor dont delete
+		walkDesc(0, root, v);
+		return sb.toString();
 	}
 
+	private boolean walkDesc(int level, Node n, Visitor v) {
+		if (n == null) {
+			return true;
+		}
+		if (!walkDesc(level + 1, n.right, v)) {
+			return false; // dont continue the walk
+		}
+		if (!v.visit(level, n)) {
+			return false;
+		}
+		return walkDesc(level + 1, n.left, v);
+
+	}
+
+	@Deprecated
 	private String print(int level, Node n) {
 		if (n == null) {
 			return "";
 		}
-		StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder(); // one Stringbuilder for each node wasteful
 		sb.append(print(level + 1, n.right));
 		for (int i = 0; i < level; i++) {
 			sb.append("\t");

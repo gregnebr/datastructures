@@ -28,8 +28,7 @@ public class MapTest {
 		Assert.assertEquals((Integer) (-1), result);
 	}
 
-	@Test
-	public void testPrint() {
+	private TreeMap<Integer, String> create() {
 		TreeMap<Integer, String> map = new TreeMap<Integer, String>();
 		map.put(5, "five");
 		map.put(7, "seven");
@@ -38,6 +37,19 @@ public class MapTest {
 		map.put(6, "six");
 		map.put(4, "four");
 		map.put(2, "two");
+		return map;
+	}
+
+	@Test
+	public void testPrint() {
+		TreeMap<Integer, String> map = create();
 		System.out.println(map);
+	}
+
+	@Test
+	public void testContainsVal() {
+		TreeMap<Integer, String> map = create();
+		Assert.assertEquals(true, map.containsValue("seven"));
+		Assert.assertEquals(false, map.containsValue("not there"));
 	}
 }
