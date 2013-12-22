@@ -205,6 +205,32 @@ public class TreeMap<K extends Comparable<K>, V> implements Map<K, V> {// passin
 	@Override
 	public V remove(Object arg0) {
 		// TODO Auto-generated method stub
+		// verify that arg0 exists in the tree
+		if (!containsKey(arg0)) {
+			return null; // ignore call to method if arg0 is not in the tree ?? print message that
+							// arg0 is not in tree??
+		}
+		// if arg0 is a leaf just remove it
+		K key = (K) arg0; // legal??
+		Node found = find(key, null, root);
+		if (found.left == null && found.right == null) {
+			// should search such that left and right leaves are matched to target
+			// how is parent node found and its leaf set to null??
+			// not complete
+		}
+		// if arg0 is a node with just one leaf move the leaf up to replace the arg0 node
+		if (found.right == null) {
+			found = found.left; // move left leaf to parent node that is being removed
+			return null;
+		} else if (found.left == null) {
+			found = found.right;
+			return null;
+		}
+		// if arg0 has two leaves replace arg0 with ... the largest value (if arg0 is on the left
+		// part of the tree)
+		// ... the smallest value (if arg0 is on the right side of the tree)
+		// not complete
+
 		return null;
 	}
 
