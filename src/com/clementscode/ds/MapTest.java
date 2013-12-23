@@ -52,4 +52,17 @@ public class MapTest {
 		Assert.assertEquals(true, map.containsValue("seven"));
 		Assert.assertEquals(false, map.containsValue("not there"));
 	}
+
+	@Test
+	public void testRemove() {
+		TreeMap<Integer, String> map = create();
+		map.remove(8);
+		System.out.println(map.toString());
+		map.remove(6);
+		System.out.println(map.toString());
+		map.remove(3);
+		System.out.println(map.toString());
+		map.remove(5);
+		System.out.println(map.toString());
+	}
 }
